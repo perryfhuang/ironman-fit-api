@@ -17,9 +17,9 @@ class Workouts(generics.ListCreateAPIView):
     def get(self, request):
         """Index request"""
         # Get all the mangos:
-        # mangos = Mango.objects.all()
+        workouts = Workout.objects.all()
         # Filter the mangos by owner, so you can only see your owned mangos
-        workouts = Workout.objects.filter(owner=request.user.id)
+        # workouts = Workout.objects.filter(owner=request.user.id)
         # Run the data through the serializer
         data = WorkoutSerializer(workouts, many=True).data
         return Response({ 'workouts': data })
@@ -45,17 +45,17 @@ class WorkoutDetail(generics.RetrieveUpdateDestroyAPIView):
         # Locate the mango to show
         workout = get_object_or_404(Workout, pk=pk)
         # Only want to show owned mangos?
-        if not request.user.id == workout.owner.id:
-            raise PermissionDenied('Unauthorized, you do not own this mango')
+        # if not request.user.id == workout.owner.id:
+        #     raise PermissionDenied('Unauthorized, you do not own this mango')
 
         # Run the data through the serializer so it's formatted
-        data = MangoSerializer(mango).data
-        return Response({ 'mango': data })
+        data = WorkoutSerializer(workout).data
+        return Response({ 'workout': data })
 
     def delete(self, request, pk):
         """Delete request"""
         # Locate mango to delete
-        workout = get_object_or_404(workout, pk=pk)
+        workout = get_object_or_404(Workout, pk=pk)
         # Check the mango's owner agains the user making this request
         if not request.user.id == workout.owner.id:
             raise PermissionDenied('Unauthorized, you do not own this mango')
@@ -82,7 +82,7 @@ class WorkoutDetail(generics.RetrieveUpdateDestroyAPIView):
         # Add owner to data object now that we know this user owns the resource
         request.data['workout']['owner'] = request.user.id
         # Validate updates with serializer
-        data = WorkoutSerializer(mango, data=request.data['mango'])
+        data = WorkoutSerializer(workout, data=request.data['workout'])
         if data.is_valid():
             # Save & send a 204 no content
             data.save()

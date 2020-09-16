@@ -4,10 +4,23 @@ from rest_framework import serializers
 from .models.workout import Workout
 from .models.user import User
 
+class OwnerReadSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=100)
+    pro_pic = serializers.URLField(max_length=999)
+    city = serializers.CharField(max_length=100)
+    state = serializers.CharField(max_length=100)
+    country = serializers.CharField(max_length=100)
+    bio = serializers.CharField(max_length=280)
+    gender = serializers.CharField(max_length=100)
+    height = serializers.IntegerField()
+    weight = serializers.IntegerField()
+
 class WorkoutSerializer(serializers.ModelSerializer):
+    owner = OwnerReadSerializer(read_only=True)
     class Meta:
         model = Workout
-        fields = ('id', 'type', 'distance', 'time', 'caption', 'feeling', 'created_at', 'updated_at')
+        fields = '__all__'
+        # fields = ('id', 'type', 'distance', 'time', 'caption', 'feeling', 'created_at', 'updated_at')
 
 class UserSerializer(serializers.ModelSerializer):
     # This model serializer will be used for User creation
