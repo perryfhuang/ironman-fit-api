@@ -63,6 +63,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
+    name = models.CharField(max_length=100, default='')
+    city = models.CharField(max_length=100, default='')
+    state = models.CharField(max_length=100, default='')
+    country = models.CharField(max_length=100, default='')
+    pro_pic = models.URLField(max_length=999, default='')
+
+    bio = models.CharField(max_length=280, default='')
+    gender = models.CharField(max_length=100, default='')
+    height = models.IntegerField()
+    weight = models.IntegerField()
+
     # Any time we call User.objects (such as in objects.all() or objects.filter())
     # make sure to use the custom user manager we created.
     objects = UserManager()
