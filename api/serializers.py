@@ -14,6 +14,7 @@ class OwnerReadSerializer(serializers.Serializer):
     gender = serializers.CharField(max_length=100)
     height = serializers.IntegerField()
     weight = serializers.IntegerField()
+    id = serializers.IntegerField()
 
 class WorkoutSerializer(serializers.ModelSerializer):
     class Meta:
