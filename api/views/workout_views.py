@@ -8,7 +8,7 @@ from django.contrib.auth import get_user, authenticate, login, logout
 from django.middleware.csrf import get_token
 
 from ..models.workout import Workout
-from ..serializers import WorkoutSerializer, UserSerializer
+from ..serializers import WorkoutSerializer, ShowWorkoutSerializer, UserSerializer
 
 # Create your views here.
 class Workouts(generics.ListCreateAPIView):
@@ -21,7 +21,7 @@ class Workouts(generics.ListCreateAPIView):
         # Filter the mangos by owner, so you can only see your owned mangos
         # workouts = Workout.objects.filter(owner=request.user.id)
         # Run the data through the serializer
-        data = WorkoutSerializer(workouts, many=True).data
+        data = ShowWorkoutSerializer(workouts, many=True).data
         return Response({ 'workouts': data })
 
     def post(self, request):
@@ -49,7 +49,7 @@ class WorkoutDetail(generics.RetrieveUpdateDestroyAPIView):
         #     raise PermissionDenied('Unauthorized, you do not own this mango')
 
         # Run the data through the serializer so it's formatted
-        data = WorkoutSerializer(workout).data
+        data = ShowWorkoutSerializer(workout).data
         return Response({ 'workout': data })
 
     def delete(self, request, pk):

@@ -16,11 +16,15 @@ class OwnerReadSerializer(serializers.Serializer):
     weight = serializers.IntegerField()
 
 class WorkoutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Workout
+        fields = ('id', 'type', 'distance', 'time', 'exercise_1', 'exercise_1_weight', 'exercise_1_sets', 'exercise_1_reps', 'exercise_2', 'exercise_2_weight', 'exercise_2_sets', 'exercise_2_reps', 'exercise_3', 'exercise_3_weight', 'exercise_3_sets', 'exercise_3_reps', 'exercise_4', 'exercise_4_weight', 'exercise_4_sets', 'exercise_4_reps', 'exercise_5', 'exercise_5_weight', 'exercise_5_sets', 'exercise_5_reps',  'exercise_6', 'exercise_6_weight', 'exercise_6_sets', 'exercise_6_reps',  'exercise_7', 'exercise_7_weight', 'exercise_7_sets', 'exercise_7_reps', 'exercise_8', 'exercise_8_weight', 'exercise_8_sets', 'exercise_8_reps', 'exercise_9', 'exercise_9_weight', 'exercise_9_sets', 'exercise_9_reps', 'exercise_10', 'exercise_10_weight', 'exercise_10_sets', 'exercise_10_reps','caption', 'feeling', 'created_at', 'updated_at', 'owner')
+
+class ShowWorkoutSerializer(serializers.ModelSerializer):
     owner = OwnerReadSerializer(read_only=True)
     class Meta:
         model = Workout
-        fields = '__all__'
-        # fields = ('id', 'type', 'distance', 'time', 'caption', 'feeling', 'created_at', 'updated_at')
+        fields = ('id', 'type', 'distance', 'time', 'exercise_1', 'exercise_1_weight', 'exercise_1_sets', 'exercise_1_reps', 'exercise_2', 'exercise_2_weight', 'exercise_2_sets', 'exercise_2_reps', 'exercise_3', 'exercise_3_weight', 'exercise_3_sets', 'exercise_3_reps', 'exercise_4', 'exercise_4_weight', 'exercise_4_sets', 'exercise_4_reps', 'exercise_5', 'exercise_5_weight', 'exercise_5_sets', 'exercise_5_reps',  'exercise_6', 'exercise_6_weight', 'exercise_6_sets', 'exercise_6_reps',  'exercise_7', 'exercise_7_weight', 'exercise_7_sets', 'exercise_7_reps', 'exercise_8', 'exercise_8_weight', 'exercise_8_sets', 'exercise_8_reps', 'exercise_9', 'exercise_9_weight', 'exercise_9_sets', 'exercise_9_reps', 'exercise_10', 'exercise_10_weight', 'exercise_10_sets', 'exercise_10_reps','caption', 'feeling', 'created_at', 'updated_at', 'owner')
 
 class UserSerializer(serializers.ModelSerializer):
     # This model serializer will be used for User creation
