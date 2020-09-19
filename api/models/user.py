@@ -63,14 +63,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    name = models.CharField(max_length=100, default='')
-    city = models.CharField(max_length=100, default='')
-    state = models.CharField(max_length=100, default='')
-    country = models.CharField(max_length=100, default='')
-    pro_pic = models.URLField(max_length=999, default='')
+    name = models.CharField(max_length=100, default='', blank=True, null=True)
+    city = models.CharField(max_length=100, default='', blank=True, null=True)
+    state = models.CharField(max_length=100, default='', blank=True, null=True)
+    country = models.CharField(max_length=100, default='', blank=True, null=True)
+    pro_pic = models.URLField(max_length=999, default='', blank=True, null=True)
 
-    bio = models.CharField(max_length=280, default='')
-    gender = models.CharField(max_length=100, default='')
+    bio = models.CharField(max_length=280, default='', blank=True, null=True)
+    gender = models.CharField(max_length=100, default='', blank=True, null=True)
     height = models.IntegerField(blank=True, null=True)
     weight = models.IntegerField(blank=True, null=True)
 

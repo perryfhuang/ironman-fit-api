@@ -16,6 +16,11 @@ class OwnerReadSerializer(serializers.Serializer):
     weight = serializers.IntegerField()
     id = serializers.IntegerField()
 
+class UpdateUserSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = User
+    fields = ('name', 'pro_pic', 'city', 'state', 'country', 'bio', 'gender', 'height', 'weight')
+
 class WorkoutSerializer(serializers.ModelSerializer):
     class Meta:
         model = Workout
@@ -50,6 +55,7 @@ class UserLoginSerializer(UserSerializer):
 class UserRegisterSerializer(serializers.Serializer):
     # Require email, password, and password_confirmation for sign up
     email = serializers.CharField(max_length=300, required=True)
+    name = serializers.CharField(max_length=300, required=True)
     password = serializers.CharField(required=True)
     password_confirmation = serializers.CharField(required=True, write_only=True)
 

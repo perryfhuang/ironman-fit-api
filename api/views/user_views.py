@@ -2,11 +2,12 @@
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.views import APIView
 from rest_framework import status, generics
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user, authenticate, login, logout
 
-from ..serializers import UserSerializer, UserRegisterSerializer, UserLoginSerializer, ChangePasswordSerializer
+from ..serializers import UserSerializer, UserRegisterSerializer, UpdateUserSerializer, UserLoginSerializer, ChangePasswordSerializer, OwnerReadSerializer
 from ..models.user import User
 
 class SignUp(generics.CreateAPIView):
@@ -94,3 +95,37 @@ class ChangePassword(generics.UpdateAPIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UserInfo(generics.RetrieveUpdateDestroyAPIView):
+  permission_classes=(IsAuthenticated,)
+  serializer_class = OwnerReadSerializer
+  def get(self, request, pk):
+    """GET request for user profile"""
+    user = get_object_or_404(User, pk=pk)
+    # Alternative way to grab "User"
+    # user = User.objects.get(pk=pk)
+    serializer = OwnerReadSerializer(user)
+    return Response({ 'user': serializer.data })
+
+  def partial_update(self, request, pk):
+    """UPDATE request for user profile"""
+    # Remove owner from request object
+    # This "gets" the owner key on the data['mango'] dictionary
+    # and returns False if it doesn't find it. So, if it's found we
+    # remove it.
+    # if request.data['user'].get('owner', False):
+    #     del request.data['workout']['owner']
+    permission_classes=(IsAuthenticated,)
+    serializer_class = UpdateUserSerializer
+
+    user = get_object_or_404(User, pk=pk)
+    # Check if user is the same as the request.user.id
+    if request.user.id != user.id:
+        raise PermissionDenied('You are an unauthorized user.')
+
+    data = UpdateUserSerializer(user, data=request.data['user'])
+    if data.is_valid():
+      data.save()
+      return Response(status=status.HTTP_204_NO_CONTENT)
+    # If the data is not valid, return a response with the errors
+    return Response(data.errors, status=status.HTTP_400_BAD_REQUEST)
