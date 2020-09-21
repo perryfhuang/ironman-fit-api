@@ -7,7 +7,10 @@ class Workout(models.Model):
   # https://docs.djangoproject.com/en/3.0/ref/models/fields/
   type = models.CharField(max_length=100)
   distance = models.DecimalField(max_digits=5, decimal_places=1, blank=True, null=True)
-  time = models.PositiveIntegerField(blank=True, null=True)
+  # time = models.PositiveIntegerField(blank=True, null=True)
+  time_hours = models.PositiveIntegerField(blank=True, null=True)
+  time_minutes = models.PositiveIntegerField(blank=True, null=True)
+  time_seconds = models.PositiveIntegerField(blank=True, null=True)
 
   # currently support 10 exercises to be input per lift!
   exercise_1 = models.CharField(max_length=100, default='', blank=True, null=True)
