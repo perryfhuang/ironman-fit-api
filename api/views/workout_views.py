@@ -12,13 +12,14 @@ from ..serializers import WorkoutSerializer, ShowWorkoutSerializer, UserSerializ
 
 # Create your views here.
 class Workouts(generics.ListCreateAPIView):
-    permission_classes=(IsAuthenticated,)
+    authentication_classes = ()
+    permission_classes = ()
     serializer_class = WorkoutSerializer
     def get(self, request):
         """Index request"""
-        # Get all the mangos:
+        # Get all the workouts:
         workouts = Workout.objects.all()
-        # Filter the mangos by owner, so you can only see your owned mangos
+        # Filter the workouts by owner, so you can only see your owned workouts
         # workouts = Workout.objects.filter(owner=request.user.id)
         # Run the data through the serializer
         data = ShowWorkoutSerializer(workouts, many=True).data
@@ -28,11 +29,11 @@ class Workouts(generics.ListCreateAPIView):
         """Create request"""
         # Add user to request data object
         request.data['workout']['owner'] = request.user.id
-        # Serialize/create mango
+        # Serialize/create workout
         workout = WorkoutSerializer(data=request.data['workout'])
-        # If the mango data is valid according to our serializer...
+        # If the workout data is valid according to our serializer...
         if workout.is_valid():
-            # Save the created mango & send a response
+            # Save the created workout & send a response
             workout.save()
             return Response({ 'workout': workout.data }, status=status.HTTP_201_CREATED)
         # If the data is not valid, return a response with the errors
@@ -42,11 +43,11 @@ class WorkoutDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes=(IsAuthenticated,)
     def get(self, request, pk):
         """Show request"""
-        # Locate the mango to show
+        # Locate the workout to show
         workout = get_object_or_404(Workout, pk=pk)
-        # Only want to show owned mangos?
+        # Only want to show owned workouts?
         # if not request.user.id == workout.owner.id:
-        #     raise PermissionDenied('Unauthorized, you do not own this mango')
+        #     raise PermissionDenied('Unauthorized, you do not own this workout')
 
         # Run the data through the serializer so it's formatted
         data = ShowWorkoutSerializer(workout).data
@@ -54,26 +55,26 @@ class WorkoutDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def delete(self, request, pk):
         """Delete request"""
-        # Locate mango to delete
+        # Locate workout to delete
         workout = get_object_or_404(Workout, pk=pk)
-        # Check the mango's owner agains the user making this request
+        # Check the workout's owner agains the user making this request
         if not request.user.id == workout.owner.id:
-            raise PermissionDenied('Unauthorized, you do not own this mango')
-        # Only delete if the user owns the  mango
+            raise PermissionDenied('Unauthorized, you do not own this workout')
+        # Only delete if the user owns the  workout
         workout.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def partial_update(self, request, pk):
         """Update Request"""
         # Remove owner from request object
-        # This "gets" the owner key on the data['mango'] dictionary
+        # This "gets" the owner key on the data['workout'] dictionary
         # and returns False if it doesn't find it. So, if it's found we
         # remove it.
         if request.data['workout'].get('owner', False):
             del request.data['workout']['owner']
 
-        # Locate Mango
-        # get_object_or_404 returns a object representation of our Mango
+        # Locate workout
+        # get_object_or_404 returns a object representation of our workout
         workout = get_object_or_404(Workout, pk=pk)
         # Check if user is the same as the request.user.id
         if not request.user.id == workout.owner.id:

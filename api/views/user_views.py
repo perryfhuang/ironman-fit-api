@@ -59,6 +59,7 @@ class SignIn(generics.CreateAPIView):
                 return Response({
                     'user': {
                         'id': user.id,
+                        'name': user.name,
                         'email': user.email,
                         'token': user.get_auth_token(user)
                     }
@@ -96,8 +97,19 @@ class ChangePassword(generics.UpdateAPIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class UsersInfo(generics.ListAPIView):
+    authentication_classes = ()
+    permission_classes = ()
+    serializer_class = OwnerReadSerializer
+    def get(self, request):
+      """INDEX request for user profiles"""
+      users = User.objects.all()
+      serializer = OwnerReadSerializer(users, many=True).data
+      return Response({ 'users': serializer })
+
 class UserInfo(generics.RetrieveUpdateDestroyAPIView):
-  permission_classes=(IsAuthenticated,)
+  authentication_classes = ()
+  permission_classes = ()
   serializer_class = OwnerReadSerializer
   def get(self, request, pk):
     """GET request for user profile"""

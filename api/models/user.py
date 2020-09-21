@@ -71,8 +71,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     bio = models.CharField(max_length=280, default='', blank=True, null=True)
     gender = models.CharField(max_length=100, default='', blank=True, null=True)
-    height = models.IntegerField(blank=True, null=True)
-    weight = models.IntegerField(blank=True, null=True)
+    height = models.IntegerField(default='0', blank=True, null=True)
+    weight = models.IntegerField(default='0', blank=True, null=True)
 
     # Any time we call User.objects (such as in objects.all() or objects.filter())
     # make sure to use the custom user manager we created.
