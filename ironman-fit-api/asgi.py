@@ -1,5 +1,5 @@
 """
-ASGI config for project-4 project.
+ASGI config for ironman-fit project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project-4.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ironman-fit-api.settings')
 
 application = get_asgi_application()

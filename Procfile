@@ -1,2 +1,2 @@
-web: gunicon project-4.wsgi
+web: gunicon ironman-fit-api.wsgi
 release: python manage.py migrate

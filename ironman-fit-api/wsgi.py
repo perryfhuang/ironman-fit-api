@@ -1,5 +1,5 @@
 """
-WSGI config for project-4_template project.
+WSGI config for ironman-fit-api_template project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project-4.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ironman-fit-api.settings')
 
 application = get_wsgi_application()
