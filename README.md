@@ -56,6 +56,7 @@ All data returned from the API is formatted as JSON.
 - SQL
 - Python
 - pip
+- Postman (testing API endpoints)
 
 ### Future Iterations
 
