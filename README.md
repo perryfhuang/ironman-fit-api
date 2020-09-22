@@ -54,9 +54,10 @@ All data returned from the API is formatted as JSON.
 - Django REST Framework
 - PostgresQL
 - SQL
+- Heroku
 - Python
 - pip
-- Postman (testing API endpoints)
+- Postman (to test API endpoints)
 
 ### Future Iterations
 
