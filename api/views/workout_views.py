@@ -25,6 +25,7 @@ class Workouts(generics.ListCreateAPIView):
         data = ShowWorkoutSerializer(workouts, many=True).data
         return Response({ 'workouts': data })
 
+class CreateWorkout(generics.CreateAPIView):
     def post(self, request):
         """Create request"""
         # Add user to request data object

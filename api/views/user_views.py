@@ -119,6 +119,9 @@ class UserInfo(generics.RetrieveUpdateDestroyAPIView):
     serializer = OwnerReadSerializer(user)
     return Response({ 'user': serializer.data })
 
+class UpdateUserInfo(generics.UpdateAPIView):
+  permission_classes=(IsAuthenticated,)
+  serializer_class = OwnerReadSerializer
   def partial_update(self, request, pk):
     """UPDATE request for user profile"""
     # Remove owner from request object
